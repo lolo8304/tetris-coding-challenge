@@ -19,7 +19,9 @@ function StartScreen() {
             isGameFinished = false;
             playBtn.style('display', "none")
             helpBtn.style('display', "none")
+            game = new Game()
             loop();
+            return false;
         });
 
         helpBtn.position(W / 3 * 2, H / 4);
