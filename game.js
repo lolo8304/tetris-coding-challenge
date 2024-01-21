@@ -153,7 +153,7 @@ function Game(oldScore, grid) {
     enableButton("space", this.x + 120, this.y + this.h + 6, () => {
       game.playerActionDrop()
     });
-    enableButton("right", this.x + 180, this.y + this.h + 6, () => {
+    enableButton("right", this.x + 200, this.y + this.h + 6, () => {
       game.playerActionRight();
     });
     enableButton("down", this.x + 136, this.y + this.h + 32, () => {
