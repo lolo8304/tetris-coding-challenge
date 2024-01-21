@@ -63,7 +63,7 @@ function resizeIfNeeded() {
   H = windowHeight;
 
   const cellSizeW = (W - 4 * PADDING) / COL_CELLS_AND_BOUNDARY;
-  const cellSizeH = (H - 6 * PADDING) / ROW_CELLS_AND_BOUNDARY;
+  const cellSizeH = (H - 8 * PADDING) / ROW_CELLS_AND_BOUNDARY;
 
   CELL_SIZE = Math.min(cellSizeH, cellSizeW);
 }
