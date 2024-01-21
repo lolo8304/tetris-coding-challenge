@@ -19,10 +19,10 @@ let useStartScreen = false;
 let isGameFinished = false;
 
 let imgBorder;
-let imgTetrominioes = []
+let imgTetrominioes = [];
 
 function preload() {
-  imgBorder = loadImage("images/tetrominoes-border.png")
+  imgBorder = loadImage("images/tetrominoes-border.png");
   imgTetrominioes = [
     loadImage("images/tetrominoes-cyan.png"),
     loadImage("images/tetrominoes-blue.png"),
@@ -31,15 +31,15 @@ function preload() {
     loadImage("images/tetrominoes-green.png"),
     loadImage("images/tetrominoes-purple.png"),
     loadImage("images/tetrominoes-red.png"),
-  ]
+  ];
 }
 
 function resizeIfNeeded() {
   W = windowWidth;
   H = windowHeight;
 
-  const cellSizeW = (W - 4 * PADDING) / (COL_CELLS_AND_BOUNDARY);
-  const cellSizeH = (H - 6 * PADDING) / (ROW_CELLS_AND_BOUNDARY);
+  const cellSizeW = (W - 4 * PADDING) / COL_CELLS_AND_BOUNDARY;
+  const cellSizeH = (H - 6 * PADDING) / ROW_CELLS_AND_BOUNDARY;
 
   CELL_SIZE = Math.min(cellSizeH, cellSizeW);
 }
@@ -49,29 +49,28 @@ function resizeFinalize() {
   game = game ? new Game(game.score, game.grid) : new Game(0, undefined);
 }
 
-
 function setup() {
   frameRate(500);
   resizeIfNeeded();
   cnv = createCanvas(W, H);
   cnv.mouseClicked(clickedInCanvas);
 
-  playBtn = createButton('Play', 'play');
-  playBtn.style("display", "none")
+  playBtn = createButton("Play", "play");
+  playBtn.style("display", "none");
 
-  helpBtn = createButton('Help', 'help');
-  helpBtn.style("display", "none")
+  helpBtn = createButton("Help", "help");
+  helpBtn.style("display", "none");
 
-  quitBtn = createButton('Quit', 'quit');
-  quitBtn.style("display", "none")
+  quitBtn = createButton("Quit", "quit");
+  quitBtn.style("display", "none");
 
-  resizeFinalize()
+  resizeFinalize();
 }
 
 function draw() {
-  background('black');
+  background("black");
   startScreen.draw();
-  game.draw()
+  game.draw();
 }
 
 function reset() {
@@ -81,15 +80,36 @@ function reset() {
 }
 
 function keyPressed() {
-  if (key?.toLowerCase() === "s") {
-    reset();
-  }
-  if (key?.toLowerCase() === " ") {
-    if (game) {
-      game.grid.demoClear();
-    }
-  }
+  switch (key) {
+    case "s":
+      reset();
+      break;
+    case "S":
+      reset();
+      break;
+    case " ":
+      game?.playerActionDrop();
+      break;
+    case "ArrowLeft":
+      game?.playerActionLeft();
+      break;
+    case "ArrowRight":
+      game?.playerActionRight();
+      break;
+    case "ArrowDown":
+      game?.playerActionDown();
+      break;
 
+    case "w":
+      game?.playerActionRotateRight();
+      break;
+    case "q":
+      game?.playerActionRotateLeft();
+      break;
+
+    default:
+      break;
+  }
 }
 
 function clickedInCanvas() {
@@ -100,12 +120,14 @@ function clickedInCanvas() {
 }
 
 function getElementByValue(tag, value) {
-  const elems = [].filter.call( document.getElementsByTagName(tag), function( input ) {
-    return input.value === value;
-  });
+  const elems = [].filter.call(
+    document.getElementsByTagName(tag),
+    function (input) {
+      return input.value === value;
+    }
+  );
   return elems[0];
 }
-
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -113,12 +135,14 @@ function windowResized() {
   resizeFinalize();
 }
 
-
 function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-  .replace(/[xy]/g, function (c) {
-      const r = Math.random() * 16 | 0, 
-          v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
   });
+}
+
+function newPlayer(grid) {
+  return new Player(grid);
 }
