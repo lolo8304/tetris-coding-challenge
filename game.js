@@ -150,13 +150,13 @@ function Game(oldScore, grid) {
     enableButton("left", this.x + 74, this.y + this.h + 6, () => {
       game.playerActionLeft();
     });
-    enableButton("space", this.x + 100, this.y + this.h + 6, () => {
+    enableButton("space", this.x + 120, this.y + this.h + 6, () => {
       game.playerActionDrop()
     });
-    enableButton("right", this.x + 160, this.y + this.h + 6, () => {
+    enableButton("right", this.x + 180, this.y + this.h + 6, () => {
       game.playerActionRight();
     });
-    enableButton("down", this.x + 116, this.y + this.h + 32, () => {
+    enableButton("down", this.x + 136, this.y + this.h + 32, () => {
       game.playerActionDown();
     });
 
