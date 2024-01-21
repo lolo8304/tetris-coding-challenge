@@ -18,7 +18,7 @@ function Player(grid) {
 
   this.grid.clearDebug();
 
-  this.canRotate = function(orientation) {
+  this.canRotate = function (orientation) {
     return this.grid.canTetrominoFit(
       this.uuid,
       this.rIdx,
@@ -26,7 +26,7 @@ function Player(grid) {
       this.gridY,
       this.gridX
     );
-  }
+  };
 
   this.canFit = function (dy, dx) {
     return this.grid.canTetrominoFit(
@@ -74,21 +74,21 @@ function Player(grid) {
     return this.moveAndDraw(0, 0);
   };
 
-  this.rotateState = function(orientation) {
+  this.rotateState = function (orientation) {
     const oldInnerBox = this.innerBox;
     this.rotationIdx = (this.rotationIdx + orientation) % 4;
     this.innerBox = this.tetris.innerBox[this.rotationIdx];
-  }
+  };
 
   this.checkAndMoveDown = function () {
     return this.checkAndMove(0, 0);
   };
   this.checkAndRotate = function (orientation) {
     if (this.canRotate(orientation)) {
-      this.rotateState(orientation)
+      this.rotateState(orientation);
     }
     return false;
-  }
+  };
 
   this.checkAndMove = function (y, x) {
     if (y != 0 || x != 0) {
@@ -134,17 +134,32 @@ function Game(oldScore, grid) {
     fill("white");
     textStyle(NORMAL);
     textSize(14);
-    text("Score: " + this.score, this.x + 20, this.y + this.h + 33);
+    text("Score: " + this.score, this.x, this.y + this.h + 21);
 
-    quitBtn.position(this.x + 120, this.y + this.h + 19);
-    quitBtn.style("display", "block");
-    quitBtn.mousePressed(() => {
+    enableButton("quit", this.x+4, this.y + this.h + 30, () => {
       useStartScreen = true;
       isGameFinished = false;
-      quitBtn.style("display", "none");
+      disableButton("quit");
+      disableButton("left");
+      disableButton("right");
+      disableButton("down");
+      disableButton("space");
       noloop();
-      return false;
     });
+
+    enableButton("left", this.x + 98, this.y + this.h + 6, () => {
+      game.playerActionLeft();
+    });
+    enableButton("down", this.x + 128, this.y + this.h + 6, () => {
+      game.playerActionDown();
+    });
+    enableButton("right", this.x + 158, this.y + this.h + 6, () => {
+      game.playerActionRight();
+    });
+    enableButton("space", this.x + 110, this.y + this.h + 32, () => {
+      game.playerActionDrop()
+    });
+
     this.drawGridBorder();
     this.drawGrid();
   };
@@ -192,7 +207,7 @@ function Game(oldScore, grid) {
   this.playerActionDrop = function () {
     if (this.player) {
       while (this.player.checkAndMove(1, 0)) {
-        console.log("still has some space. I am going down")
+        console.log("still has some space. I am going down");
       }
       this.player = undefined;
     }

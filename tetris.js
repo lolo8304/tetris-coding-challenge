@@ -11,15 +11,39 @@ let cnv;
 let startScreen;
 let game;
 
-let playBtn;
-let helpBtn;
-let quitBtn;
+let buttons = {};
 
 let useStartScreen = false;
 let isGameFinished = false;
 
 let imgBorder;
 let imgTetrominioes = [];
+
+function createTButton(title, name) {
+  const newButton = createButton(title, name);
+  newButton.style("display", "none");
+  buttons[name] = newButton;
+}
+
+function button(name) {
+  return buttons[name]
+}
+
+function enableButton(name, x, y, callback) {
+  const btn = buttons[name];
+  btn.position(x, y);
+  btn.style("display", "block");
+  btn.mousePressed(() => {
+    callback.apply();
+    return false;
+  });
+}
+
+function disableButton(name) {
+  const btn = buttons[name];
+  btn.style("display", "none");
+  btn.mousePressed(() => {});
+}
 
 function preload() {
   imgBorder = loadImage("images/tetrominoes-border.png");
@@ -55,14 +79,14 @@ function setup() {
   cnv = createCanvas(W, H);
   cnv.mouseClicked(clickedInCanvas);
 
-  playBtn = createButton("Play", "play");
-  playBtn.style("display", "none");
+  createTButton("Play", "play");
+  createTButton("Help", "help");
+  createTButton("Quit", "quit");
 
-  helpBtn = createButton("Help", "help");
-  helpBtn.style("display", "none");
-
-  quitBtn = createButton("Quit", "quit");
-  quitBtn.style("display", "none");
+  createTButton("<", "left");
+  createTButton(">", "right");
+  createTButton("v", "down");
+  createTButton("[space]", "space");
 
   resizeFinalize();
 }

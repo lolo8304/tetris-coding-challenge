@@ -11,20 +11,17 @@ function StartScreen() {
     textStyle(BOLD);
     text("Welcome to Tetris !!!", W / 2, H / 8);
 
-    playBtn.position(W / 3, H / 4);
-    playBtn.style("display", "block");
-    playBtn.mousePressed(() => {
+    enableButton("play", W / 3, H / 4, () => {
       useStartScreen = false;
       isGameFinished = false;
-      playBtn.style("display", "none");
-      helpBtn.style("display", "none");
+      disableButton("play");
+      disableButton("help");
       game = new Game();
       loop();
-      return false;
     });
 
-    helpBtn.position((W / 3) * 2, H / 4);
-    helpBtn.style("display", "block");
+    enableButton("help", (W / 3) * 2, H / 4, () => {
+    });
 
     noLoop();
   };
