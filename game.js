@@ -147,17 +147,17 @@ function Game(oldScore, grid) {
       noloop();
     });
 
-    enableButton("left", this.x + 98, this.y + this.h + 6, () => {
+    enableButton("left", this.x + 74, this.y + this.h + 6, () => {
       game.playerActionLeft();
     });
-    enableButton("down", this.x + 128, this.y + this.h + 6, () => {
-      game.playerActionDown();
+    enableButton("space", this.x + 100, this.y + this.h + 6, () => {
+      game.playerActionDrop()
     });
-    enableButton("right", this.x + 158, this.y + this.h + 6, () => {
+    enableButton("right", this.x + 160, this.y + this.h + 6, () => {
       game.playerActionRight();
     });
-    enableButton("space", this.x + 110, this.y + this.h + 32, () => {
-      game.playerActionDrop()
+    enableButton("down", this.x + 116, this.y + this.h + 32, () => {
+      game.playerActionDown();
     });
 
     this.drawGridBorder();
