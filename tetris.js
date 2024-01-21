@@ -1,6 +1,7 @@
 let W = 300;
 let H = 500;
-const PADDING = 20;
+const PADDING = 5;
+const PADDING_BOTTOM = 12*PADDING;
 let CELL_SIZE = 20; //px
 const COL_CELLS = 10; // count
 const ROW_CELLS = 20; // count
@@ -63,7 +64,7 @@ function resizeIfNeeded() {
   H = windowHeight;
 
   const cellSizeW = (W - 4 * PADDING) / COL_CELLS_AND_BOUNDARY;
-  const cellSizeH = (H - 8 * PADDING) / ROW_CELLS_AND_BOUNDARY;
+  const cellSizeH = (H - PADDING_BOTTOM) / ROW_CELLS_AND_BOUNDARY;
 
   CELL_SIZE = Math.min(cellSizeH, cellSizeW);
 }
