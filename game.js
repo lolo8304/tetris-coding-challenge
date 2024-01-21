@@ -201,6 +201,12 @@ function Game(oldScore, grid) {
         this.player = undefined;
         useStartScreen = true;
         isGameFinished = true;
+      disableButton("quit");
+      disableButton("left");
+      disableButton("right");
+      disableButton("down");
+      disableButton("space");
+        
       }
     }
   };
