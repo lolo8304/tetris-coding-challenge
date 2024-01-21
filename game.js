@@ -74,12 +74,18 @@ function Player(grid) {
     return this.moveAndDraw(0, 0);
   };
 
+  this.rotateState = function(orientation) {
+    const oldInnerBox = this.innerBox;
+    this.rotationIdx = (this.rotationIdx + orientation) % 4;
+    this.innerBox = this.tetris.innerBox[this.rotationIdx];
+  }
+
   this.checkAndMoveDown = function () {
     return this.checkAndMove(0, 0);
   };
   this.checkAndRotate = function (orientation) {
     if (this.canRotate(orientation)) {
-      this.rotationIdx = (this.rotationIdx + orientation) % 4;
+      this.rotateState(orientation)
     }
     return false;
   }

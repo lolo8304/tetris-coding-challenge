@@ -449,6 +449,7 @@ function Grid(game, x, y, oldCells) {
   };
 
   this.debug = function (elem) {
+    return;
     noFill();
     stroke("pink");
     rect(
@@ -459,6 +460,7 @@ function Grid(game, x, y, oldCells) {
     );
   };
   this.debug2 = function (elem) {
+    return;
     noFill();
     stroke("green");
     rect(
