@@ -1,5 +1,5 @@
 function Player(grid) {
-  const VELOCITY_DELTA = 0.003;
+  const VELOCITY_DELTA = 0.03;
   this.grid = grid;
   this.rIdx = Math.floor(map(random(), 0, 1, 0, this.grid.tetriminoes.length));
   this.rotationIdx = Math.floor(map(random(), 0, 1, 0, 4));
@@ -232,11 +232,17 @@ function Game(oldScore, grid) {
       posY += CELL_SIZE;
     }
   };
+  
+  this.resetPlayerAndCheck = function() {
+    this.player = undefined;
+    this.grid.dropFullLines()
+
+  }
 
   this.drawGrid = function () {
     if (this.player) {
       if (!this.player.checkAndMoveDown()) {
-        this.player = undefined;
+        this.resetPlayerAndCheck();
       }
     } else {
       this.placePlayer();
@@ -265,7 +271,7 @@ function Game(oldScore, grid) {
       while (this.player.checkAndMove(1, 0)) {
         console.log("still has some space. I am going down");
       }
-      this.player = undefined;
+      this.resetPlayerAndCheck();
     }
   };
   this.playerActionLeft = function () {

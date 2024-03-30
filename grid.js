@@ -332,9 +332,11 @@ function Grid(game, x, y, oldCells) {
       (matrix, innerBox, y, x) => {
         if (matrix[innerBox.row + y][innerBox.col + x] === 1) {
           const elem = this.cells[gridY + y][gridX + x];
-          elem.used = true;
-          elem.tetriminoesIdx = tetrisElem.idx;
-          elem.uuid = playerUuid;
+          if (elem) {
+            elem.used = true;
+            elem.tetriminoesIdx = tetrisElem.idx;
+            elem.uuid = playerUuid;  
+          }
         }
       }
     );
@@ -356,27 +358,32 @@ function Grid(game, x, y, oldCells) {
       gridX,
       (matrix, innerBox, y, x) => {
         const elem = this.cells[gridY + y + dy][gridX + x + dx];
-        if (matrix[innerBox.row + y][innerBox.col + x] === 1) {
-          elem.used = true;
-          elem.tetriminoesIdx = tetrisElem.idx;
-          elem.willBeCleared = 0;
-          elem.uuid = playerUuid;
-          if (
-            (dy != 0 && y === 0) ||
-            (dx === -1 && x === innerBox.cols - 1) ||
-            (dx === 1 && x === 0)
-          ) {
-            const oldElem = this.cells[gridY + y][gridX + x];
-            oldElem.debug = true;
-            oldElem.used = false;
-            oldElem.willBeCleared = 0;
-            oldElem.tetriminoesIdx = -1;
-            oldElem.uuid = undefined;
+        if (elem) {
+          if (matrix[innerBox.row + y][innerBox.col + x] === 1) {
+            elem.used = true;
+            elem.tetriminoesIdx = tetrisElem.idx;
+            elem.willBeCleared = 0;
+            elem.uuid = playerUuid;
+            if (
+              (dy != 0 && y === 0) ||
+              (dx === -1 && x === innerBox.cols - 1) ||
+              (dx === 1 && x === 0)
+            ) {
+              const oldElem = this.cells[gridY + y][gridX + x];
+              if (oldElem) {
+                oldElem.debug = true;
+                oldElem.used = false;
+                oldElem.willBeCleared = 0;
+                oldElem.tetriminoesIdx = -1;
+                oldElem.uuid = undefined;  
+              }
+            }
+          } else if (elem.uuid === playerUuid) {
+            elem.used = false;
+            elem.tetriminoesIdx = tetrisElem.idx;
+            elem.willBeCleared = 0;
           }
-        } else if (elem.uuid === playerUuid) {
-          elem.used = false;
-          elem.tetriminoesIdx = tetrisElem.idx;
-          elem.willBeCleared = 0;
+  
         }
       }
     );
@@ -419,13 +426,13 @@ function Grid(game, x, y, oldCells) {
 
   this.isLineEmpty = function (gridY) {
     for (let gridX = 0; gridX < COL_CELLS; gridX++) {
-      if (this.grid[gridY][gridX].used) return false;
+      if (this.cells[gridY][gridX].used) return false;
     }
     return true;
   };
   this.isLineFull = function (gridY) {
     for (let gridX = 0; gridX < COL_CELLS; gridX++) {
-      if (!this.grid[gridY][gridX].used) return false;
+      if (!this.cells[gridY][gridX].used) return false;
     }
     return true;
   };
@@ -530,6 +537,8 @@ function Grid(game, x, y, oldCells) {
             ) {
               fit = false;
             }  
+          } else {
+            fit = false;
           }
         }
       }
