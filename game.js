@@ -265,6 +265,7 @@ function Game(oldScore, grid) {
       disableButton("left");
       disableButton("right");
       disableButton("down");
+      disableButton("up");
       disableButton("space");
         
       }
