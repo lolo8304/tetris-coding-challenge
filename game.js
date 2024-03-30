@@ -4,8 +4,8 @@ function Player(grid) {
   this.rIdx = Math.floor(map(random(), 0, 1, 0, this.grid.tetriminoes.length));
   this.rotationIdx = Math.floor(map(random(), 0, 1, 0, 4));
 
-  this.rIdx = 0;
-  this.rotationIdx = 0;
+  //this.rIdx = 0;
+  //this.rotationIdx = 0;
 
   this.tetris = this.grid.tetriminoes[this.rIdx];
   this.tetrisSize = this.tetris.matrix.length;
