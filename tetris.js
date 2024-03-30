@@ -56,6 +56,7 @@ function preload() {
     loadImage("images/tetrominoes-green.png"),
     loadImage("images/tetrominoes-purple.png"),
     loadImage("images/tetrominoes-red.png"),
+    loadImage("images/tetrominoes-red.png"),
   ];
 }
 
@@ -125,6 +126,7 @@ function keyPressed() {
       game?.playerActionDown();
       break;
 
+    case "ArrowUp":
     case "w":
       game?.playerActionRotateRight();
       break;

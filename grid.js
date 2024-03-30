@@ -108,11 +108,10 @@ function Grid(game, x, y, oldCells) {
     return elem;
   };
   this.rotateTetreminoes = function () {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < this.tetriminoes.length; i++) {
       this.rotateTetreminoesIdx(i);
     }
   };
-  this.rotateTetreminoes();
 
   this.findBoundingBox = function (matrix) {
     let minX = matrix[0].length,
@@ -143,7 +142,7 @@ function Grid(game, x, y, oldCells) {
   };
 
   this.calculateInnerBox = function () {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < this.tetriminoes.length; i++) {
       const elem = this.tetriminoes[i];
       elem.innerBox = [];
       for (let j = 0; j < elem.rotations.length; j++) {
@@ -152,7 +151,6 @@ function Grid(game, x, y, oldCells) {
       }
     }
   };
-  this.calculateInnerBox();
 
   this.cells = this.createMatrix(ROW_CELLS, COL_CELLS, () => ({
     posX: 0,
@@ -175,7 +173,7 @@ function Grid(game, x, y, oldCells) {
         /* uncomment for demo
                 elem.used = random() < 0.5;
                 elem.willBeCleared = random() < 0.5 ? CLEARED_COUNTER : 0;
-                elem.tetriminoesIdx = Math.floor(map(random(), 0, 1, 0, 7))    
+                elem.tetriminoesIdx = Math.floor(map(random(), 0, 1, 0, this.tetriminoes.length))    
                 */
 
         elem.used = false;
@@ -201,6 +199,8 @@ function Grid(game, x, y, oldCells) {
       posY += CELL_SIZE;
     }
   };
+  this.rotateTetreminoes();
+  this.calculateInnerBox();
   this.initGrid(x, y, oldCells);
 
   this.drawPos = function (row, col) {
@@ -225,6 +225,9 @@ function Grid(game, x, y, oldCells) {
     }
     if (elem.debug) {
       this.debug(elem);
+    }
+    if (elem.debug2) {
+      this.debug2(elem);
     }
   };
 
@@ -260,14 +263,36 @@ function Grid(game, x, y, oldCells) {
   };
 
   this.clearGrid = function (gridX, gridY, gridWidth, gridHeight) {
-    for (let cols = gridX; gridX + gridWidth < COL_CELLS; cols++) {
-      for (let rows = gridY; gridY + gridHeight < ROW_CELLS; rows++) {
+    const gridXMax = Math.min(COL_CELLS, gridX + gridWidth);
+    const gridYMax = Math.min(ROW_CELLS, gridY + gridHeight);
+    for (let cols = gridX; cols < gridXMax; cols++) {
+      for (let rows = gridY; rows < gridYMax; rows++) {
         let elem = this.cells[rows][cols];
+        elem.debug2 = true;
         elem.used = false;
         elem.willBeCleared = 0;
+        elem.tetriminoesIdx = -1;
+        elem.uuid = undefined;
       }
     }
   };
+  this.clearGridOfPlayer = function (playerUuid, gridX, gridY, gridWidth, gridHeight) {
+    const gridXMax = Math.min(COL_CELLS, gridX + gridWidth);
+    const gridYMax = Math.min(ROW_CELLS, gridY + gridHeight);
+    for (let cols = gridX; cols < gridXMax; cols++) {
+      for (let rows = gridY; rows < gridYMax; rows++) {
+        let elem = this.cells[rows][cols];
+        if (playerUuid === elem.uuid) {
+          elem.debug2 = true;
+          elem.used = false;
+          elem.willBeCleared = 0;
+          elem.tetriminoesIdx = -1;
+          elem.uuid = undefined;
+        }
+      }
+    }
+  };
+
 
   this.iterateIdxRotation = function (
     tetrisElem,
@@ -282,7 +307,14 @@ function Grid(game, x, y, oldCells) {
       for (let x = 0; x < innerBox.cols; x++) {
         callback(matrix, innerBox, y, x);
       }
+    }    
+   /*
+    for (let y = innerBox.row; y <= innerBox.rowMax; y++) {
+      for (let x = innerBox.col; x <= innerBox.colMax; x++) {
+        callback(matrix, innerBox, y, x);
+      }
     }
+    */
   };
 
   this.placeIdxRotation = function (
@@ -374,7 +406,7 @@ function Grid(game, x, y, oldCells) {
   };
 
   this.placeRandom = function () {
-    const rIdx = Math.floor(map(random(), 0, 1, 0, 7));
+    const rIdx = Math.floor(map(random(), 0, 1, 0, this.tetriminoes.length));
     const rotationIdx = Math.floor(map(random(), 0, 1, 0, 4));
     const tetris = this.tetriminoes[rIdx];
     this.placeTetriminoesIdx(
@@ -486,16 +518,18 @@ function Grid(game, x, y, oldCells) {
       gridY,
       gridX,
       (matrix, innerBox, y, x) => {
-        if (gridY + y >= ROW_CELLS || gridX + x >= COL_CELLS) {
+        if (gridY + y > ROW_CELLS || gridX + x > COL_CELLS) {
           fit = false;
         } else {
           const elem = this.cells[gridY + y][gridX + x];
-          const isForeignUsed = elem.used && elem.uuid != playerUuid;
-          if (
-            isForeignUsed &&
-            matrix[innerBox.row + y][innerBox.col + x] === 1
-          ) {
-            fit = false;
+          if (elem) {
+            const isForeignUsed = elem.used && elem.uuid != playerUuid;
+            if (
+              isForeignUsed &&
+              matrix[innerBox.row + y][innerBox.col + x] === 1
+            ) {
+              fit = false;
+            }  
           }
         }
       }

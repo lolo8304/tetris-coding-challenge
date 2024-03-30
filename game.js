@@ -1,17 +1,18 @@
 function Player(grid) {
-  const VELOCITY_DELTA = 0.03;
+  const VELOCITY_DELTA = 0.003;
   this.grid = grid;
-  this.rIdx = Math.floor(map(random(), 0, 1, 0, 7));
+  this.rIdx = Math.floor(map(random(), 0, 1, 0, this.grid.tetriminoes.length));
   this.rotationIdx = Math.floor(map(random(), 0, 1, 0, 4));
 
-  //this.rIdx = 0;
-  //this.rotationIdx = 0;
+  this.rIdx = 0;
+  this.rotationIdx = 0;
 
   this.tetris = this.grid.tetriminoes[this.rIdx];
   this.tetrisSize = this.tetris.matrix.length;
   this.uuid = uuidv4();
 
   this.innerBox = this.tetris.innerBox[this.rotationIdx];
+  this.diffBoxesFromRotation = [];
   this.velocity = -1.0;
   this.gridX = Math.floor((COL_CELLS - this.innerBox.cols) / 2);
   this.gridY = 0;
@@ -19,12 +20,13 @@ function Player(grid) {
   this.grid.clearDebug();
 
   this.canRotate = function (orientation) {
+    const gridDiff = this.gridDiffForRotation(orientation)
     return this.grid.canTetrominoFit(
       this.uuid,
       this.rIdx,
-      (this.rotationIdx + orientation) % 4,
-      this.gridY,
-      this.gridX
+      gridDiff.newRotationIdx,
+      this.gridY + gridDiff.dY,
+      this.gridX + gridDiff.dX
     );
   };
 
@@ -74,11 +76,59 @@ function Player(grid) {
     return this.moveAndDraw(0, 0);
   };
 
-  this.rotateState = function (orientation) {
+  this.gridDiffForRotation = function(orientation) {
     const oldInnerBox = this.innerBox;
-    this.rotationIdx = (this.rotationIdx + orientation) % 4;
-    this.innerBox = this.tetris.innerBox[this.rotationIdx];
+    const newRotationIdx = (this.rotationIdx + orientation) % 4;
+    const newInnerBox = this.tetris.innerBox[newRotationIdx];
+    return {
+      oldInnerBox,
+      newInnerBox,
+      newRotationIdx,
+      dX: newInnerBox.col - oldInnerBox.col,
+      dY: newInnerBox.row - oldInnerBox.row
+    }
+  }
+
+  this.rotateState = function (orientation) {
+    const gridDiff = this.gridDiffForRotation(orientation);
+
+    const oldInnerBox = gridDiff.oldInnerBox;
+    this.rotationIdx = gridDiff.newRotationIdx
+    this.innerBox = gridDiff.newInnerBox
+    this.clearDiffInnerBoxes(oldInnerBox, this.innerBox);
+    this.gridX += gridDiff.dX
+    this.gridY += gridDiff.dY
   };
+
+  this.clearDiffInnerBoxes = function(oldBox, newBox) {
+    if (
+      oldBox.col == newBox.col &&
+      oldBox.row == newBox.row &&
+      oldBox.col == newBox.colMax &&
+      oldBox.col == newBox.rowMax
+    ) {
+      return;
+    }
+    const diffBoxes = [];
+    for (let x = oldBox.col; x <= oldBox.colMax; x++) {
+      for (let y = oldBox.row; y <= oldBox.rowMax; y++) {
+        if (true || !this.isInBox(x, y, newBox)) {
+          // substract .col and .row for clearing due to issue in rotation (rot around top left corner instead of center)
+          const diffCol = oldBox.col
+          const diffRow = oldBox.row
+          this.grid.clearGridOfPlayer(this.uuid, 
+            this.gridX + x - diffCol, this.gridY + y - diffRow, 
+            1, 1);
+        }
+      }        
+    }
+    return diffBoxes;
+  };
+  this.isInBox = function(x,y, box) {
+    return (
+      box.col <= x && x <= box.colMax &&
+      box.row <= y && y <= box.rowMax);
+  }
 
   this.checkAndMoveDown = function () {
     return this.checkAndMove(0, 0);
