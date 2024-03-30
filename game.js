@@ -193,6 +193,7 @@ function Game(oldScore, grid) {
       disableButton("left");
       disableButton("right");
       disableButton("down");
+      disableButton("up");
       disableButton("space");
       noloop();
     });
@@ -208,6 +209,9 @@ function Game(oldScore, grid) {
     });
     enableButton("down", this.x + 136, this.y + this.h + 32, () => {
       game.playerActionDown();
+    });
+    enableButton("up", this.x + 170, this.y + this.h + 32, () => {
+      game.playerActionRotateRight();
     });
 
     this.drawGridBorder();
