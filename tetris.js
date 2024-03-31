@@ -1,7 +1,7 @@
 let W = 300;
 let H = 500;
 const PADDING = 5;
-const PADDING_BOTTOM = 20*PADDING;
+const PADDING_BOTTOM = 28*PADDING;
 let CELL_SIZE = 20; //px
 const COL_CELLS = 10; // count
 const ROW_CELLS = 20; // count
@@ -38,7 +38,7 @@ function enableButton(name, x, y, callback) {
     callback.apply();
     return false;
   });
-  btn.addEventListener("touchend", preventZoom);
+  btn.elt.addEventListener("touchend", preventZoom);
 }
 
 
@@ -100,10 +100,10 @@ function setup() {
   createTButton("Help", "help");
   createTButton("Quit", "quit");
 
-  createTButton("<", "left");
-  createTButton(">", "right");
-  createTButton("v", "down");
-  createTButton("up", "up");
+  createTButton("&nbsp;&nbsp;<&nbsp;&nbsp;", "left");
+  createTButton("&nbsp;&nbsp;>&nbsp;&nbsp;", "right");
+  createTButton("down", "down");
+  createTButton("&nbsp;&nbsp;up&nbsp;&nbsp;", "up");
   createTButton("[space]", "space");
 
   resizeFinalize();

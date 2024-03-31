@@ -183,10 +183,10 @@ function Game(oldScore, grid) {
     textAlign(LEFT);
     fill("white");
     textStyle(NORMAL);
-    textSize(14);
-    text("Score: " + this.score, this.x, this.y + this.h + 21);
+    textSize(40);
+    text("" + this.score, this.x, this.y + this.h + 42);
 
-    enableButton("quit", this.x+4, this.y + this.h + 30, () => {
+    enableButton("quit", this.x, this.y + this.h + 60, () => {
       useStartScreen = true;
       isGameFinished = false;
       disableButton("quit");
@@ -201,16 +201,16 @@ function Game(oldScore, grid) {
     enableButton("left", this.x + 74, this.y + this.h + 6, () => {
       game.playerActionLeft();
     });
-    enableButton("space", this.x + 120, this.y + this.h + 6, () => {
+    enableButton("space", this.x + 140, this.y + this.h + 6, () => {
       game.playerActionDrop()
     });
-    enableButton("right", this.x + 220, this.y + this.h + 6, () => {
+    enableButton("right", this.x + 230, this.y + this.h + 6, () => {
       game.playerActionRight();
     });
-    enableButton("down", this.x + 136, this.y + this.h + 36, () => {
+    enableButton("down", this.x + 90, this.y + this.h + 60, () => {
       game.playerActionDown();
     });
-    enableButton("up", this.x + 200, this.y + this.h + 36, () => {
+    enableButton("up", this.x + 200, this.y + this.h + 60, () => {
       game.playerActionRotateRight();
     });
 
@@ -238,6 +238,7 @@ function Game(oldScore, grid) {
   };
   
   this.resetPlayerAndCheck = function() {
+    this. incScore(1);
     this.player = undefined;
     this.grid.dropFullLines()
 
@@ -295,7 +296,7 @@ function Game(oldScore, grid) {
     this.player?.checkAndRotate(-1);
   };
 
-  this.incScore = function () {
-    this.score++;
+  this.incScore = function (count) {
+    this.score += (count || 1);
   };
 }

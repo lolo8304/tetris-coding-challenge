@@ -53,9 +53,9 @@ function Grid(game, x, y, oldCells) {
       color: color("green"),
       img: imgTetrominioes[idx++],
       matrix: [
-        [1, 0, 1],
-        [0, 1, 0],
-        [0, 1, 0],
+        [0, 1, 1],
+        [1, 1, 0],
+        [0, 0, 0],
       ],
     },
     {
@@ -188,7 +188,6 @@ function Grid(game, x, y, oldCells) {
         elem.used = oldElem.used;
         if (elem.used) {
           this.count++;
-          this.game.score++;
         }
         elem.willBeCleared = oldElem.willBeCleared;
         elem.tetriminoesIdx = oldElem.tetriminoesIdx;
@@ -212,7 +211,6 @@ function Grid(game, x, y, oldCells) {
         if (elem.willBeCleared === 0) {
           elem.used = false;
           this.count--;
-          this.game.score--;
           elem.tetriminoesIdx = -1;
           elem.uuid = undefined;
         }
@@ -482,6 +480,7 @@ function Grid(game, x, y, oldCells) {
     const fullLines = this.listOfFullLines();
     if (fullLines.length > 0) {
       for (const gridY of fullLines) {
+        this.game.incScore(10);
         this.dropLine(gridY);
       }
     }
