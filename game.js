@@ -204,13 +204,13 @@ function Game(oldScore, grid) {
     enableButton("space", this.x + 120, this.y + this.h + 6, () => {
       game.playerActionDrop()
     });
-    enableButton("right", this.x + 200, this.y + this.h + 6, () => {
+    enableButton("right", this.x + 220, this.y + this.h + 6, () => {
       game.playerActionRight();
     });
     enableButton("down", this.x + 136, this.y + this.h + 32, () => {
       game.playerActionDown();
     });
-    enableButton("up", this.x + 170, this.y + this.h + 32, () => {
+    enableButton("up", this.x + 200, this.y + this.h + 32, () => {
       game.playerActionRotateRight();
     });
 
