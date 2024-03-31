@@ -103,7 +103,7 @@ function setup() {
   createTButton("&nbsp;&nbsp;<&nbsp;&nbsp;", "left");
   createTButton("&nbsp;&nbsp;>&nbsp;&nbsp;", "right");
   createTButton("down", "down");
-  createTButton("&nbsp;&nbsp;up&nbsp;&nbsp;", "up");
+  createTButton("rotate", "up");
   createTButton("[space]", "space");
 
   resizeFinalize();
