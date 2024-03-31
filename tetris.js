@@ -88,6 +88,7 @@ function setup() {
   createTButton("<", "left");
   createTButton(">", "right");
   createTButton("v", "down");
+  createTButton("up", "up");
   createTButton("[space]", "space");
 
   resizeFinalize();
