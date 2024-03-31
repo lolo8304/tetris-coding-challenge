@@ -207,10 +207,10 @@ function Game(oldScore, grid) {
     enableButton("right", this.x + 220, this.y + this.h + 6, () => {
       game.playerActionRight();
     });
-    enableButton("down", this.x + 136, this.y + this.h + 32, () => {
+    enableButton("down", this.x + 136, this.y + this.h + 36, () => {
       game.playerActionDown();
     });
-    enableButton("up", this.x + 200, this.y + this.h + 32, () => {
+    enableButton("up", this.x + 200, this.y + this.h + 36, () => {
       game.playerActionRotateRight();
     });
 
