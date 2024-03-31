@@ -238,7 +238,7 @@ function Game(oldScore, grid) {
   };
   
   this.resetPlayerAndCheck = function() {
-    this. incScore(1);
+    this.incScore(1);
     this.player = undefined;
     this.grid.dropFullLines()
 
