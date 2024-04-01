@@ -183,8 +183,8 @@ function Game(oldScore, grid) {
     textAlign(LEFT);
     fill("white");
     textStyle(NORMAL);
-    textSize(40);
-    text("" + this.score, this.x, this.y + this.h + 42);
+    textSize(20);
+    text("" + this.score, this.x, this.y + this.h + 30);
 
     enableButton("quit", this.x, this.y + this.h + 60, () => {
       useStartScreen = true;
@@ -198,19 +198,19 @@ function Game(oldScore, grid) {
       noloop();
     });
 
-    enableButton("left", this.x + 134, this.y + this.h + 6, () => {
+    enableButton("left", this.x + 74, this.y + this.h + 6, () => {
       game.playerActionLeft();
     });
-    enableButton("space", this.x + 200, this.y + this.h + 6, () => {
+    enableButton("space", this.x + 140, this.y + this.h + 6, () => {
       game.playerActionDrop()
     });
-    enableButton("right", this.x + 290, this.y + this.h + 6, () => {
+    enableButton("right", this.x + 230, this.y + this.h + 6, () => {
       game.playerActionRight();
     });
-    enableButton("down", this.x + 150, this.y + this.h + 60, () => {
+    enableButton("down", this.x + 90, this.y + this.h + 60, () => {
       game.playerActionDown();
     });
-    enableButton("up", this.x + 260, this.y + this.h + 60, () => {
+    enableButton("up", this.x + 200, this.y + this.h + 60, () => {
       game.playerActionRotateRight();
     });
 
