@@ -124,21 +124,24 @@ function reset() {
 function keyPressed() {
   game.score = keyCode;
   switch (key) {
+    case "g":
+      reset();
+      break;
+    case "G":
+      reset();
+      break;
     case "s":
-      reset();
-      break;
-    case "S":
-      reset();
-      break;
-    case " ":
       game?.playerActionDrop();
       break;
+    case "a":
     case "ArrowLeft":
       game?.playerActionLeft();
       break;
+    case "d":
     case "ArrowRight":
       game?.playerActionRight();
       break;
+    case "r":
     case "ArrowDown":
       game?.playerActionDown();
       break;
@@ -146,9 +149,6 @@ function keyPressed() {
     case "ArrowUp":
     case "w":
       game?.playerActionRotateRight();
-      break;
-    case "q":
-      game?.playerActionRotateLeft();
       break;
 
     default:
