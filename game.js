@@ -45,7 +45,7 @@ function Player(grid) {
       return false;
     }
     if (!this.canFit(dy, dx)) {
-      console.log("Tetromino does not fit anymore");
+      //console.log("Tetromino does not fit anymore");
       return false;
     }
     if (dy === 0 && dx === 0) {
@@ -274,7 +274,7 @@ function Game(oldScore, grid) {
   this.playerActionDrop = function () {
     if (this.player) {
       while (this.player.checkAndMove(1, 0)) {
-        console.log("still has some space. I am going down");
+        //console.log("still has some space. I am going down");
       }
       this.incScore(2*4);
       this.resetPlayerAndCheck();

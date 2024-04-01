@@ -439,7 +439,7 @@ function Grid(game, x, y, oldCells) {
     const fullLineYIndexes = [];
     for (let gridY = ROW_CELLS - 1; gridY >= 0; gridY--) {
       if (this.isLineFull(gridY)) {
-        fullLineYIndexes.push(gridY);
+        fullLineYIndexes.push(gridY + fullLineYIndexes.length);
       }
     }
     return fullLineYIndexes;
@@ -495,6 +495,7 @@ function Grid(game, x, y, oldCells) {
         default:
           break;
       }
+      //console.log("Full lines: "+fullLines)
       for (const gridY of fullLines) {
         this.dropLine(gridY);
       }
