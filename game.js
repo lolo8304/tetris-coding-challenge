@@ -164,7 +164,7 @@ function Player(grid, vDelta) {
 
 function Game(oldScore, grid) {
   const VELOCITY_START = 0.03
-  const VELOCITY_INC = 0.01
+  const VELOCITY_INC = 0.005
   this.velocityDelta = VELOCITY_START;
   this.h = CELL_SIZE * ROW_CELLS_AND_BOUNDARY;
   this.w = CELL_SIZE * COL_CELLS_AND_BOUNDARY;
