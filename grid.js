@@ -489,7 +489,7 @@ function Grid(game, x, y, oldCells) {
         case 3:
           this.game.incScore(300);
           break;
-        case 3:
+        case 4:
           this.game.incScore(1200);
           break;
         default:
