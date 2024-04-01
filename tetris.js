@@ -122,6 +122,7 @@ function reset() {
 }
 
 function keyPressed() {
+  game.score = keyCode;
   switch (key) {
     case "s":
       reset();
