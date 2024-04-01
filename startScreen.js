@@ -11,6 +11,10 @@ function StartScreen() {
     textStyle(BOLD);
     text("Welcome to Tetris !!!", W / 2, H / 8);
 
+    if (isGameFinished) {
+      text("Last score "+game.score, W / 2, H / 2);
+    }
+
     enableButton("play", W / 3, H / 4, () => {
       useStartScreen = false;
       isGameFinished = false;

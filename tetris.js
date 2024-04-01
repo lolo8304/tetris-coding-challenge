@@ -188,5 +188,5 @@ function uuidv4() {
 }
 
 function newPlayer(grid) {
-  return new Player(grid);
+  return new Player(grid, game.velocityDelta);
 }
