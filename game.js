@@ -1,5 +1,5 @@
-function Player(grid) {
-  const VELOCITY_DELTA = 0.03;
+function Player(grid, vDelta) {
+  this.VELOCITY_DELTA = vDelta;
   this.grid = grid;
   this.rIdx = Math.floor(map(random(), 0, 1, 0, this.grid.tetriminoes.length));
   this.rotationIdx = Math.floor(map(random(), 0, 1, 0, 4));
@@ -146,9 +146,9 @@ function Player(grid) {
     }
     if (this.gridY + this.innerBox.rows < ROW_CELLS) {
       if (this.velocity === -1.0) {
-        this.velocity = VELOCITY_DELTA;
+        this.velocity = this.VELOCITY_DELTA;
       } else if (this.velocity > 0.0 && this.velocity < 1.0) {
-        this.velocity += VELOCITY_DELTA;
+        this.velocity += this.VELOCITY_DELTA;
       } else if (this.velocity > 1.0) {
         this.velocity = -1.0;
       }
@@ -163,6 +163,8 @@ function Player(grid) {
 }
 
 function Game(oldScore, grid) {
+  const VELOCITY_START = 0.03
+  this.velocityDelta = VELOCITY_START;
   this.h = CELL_SIZE * ROW_CELLS_AND_BOUNDARY;
   this.w = CELL_SIZE * COL_CELLS_AND_BOUNDARY;
   this.x = (W - this.w) / 2.0;
@@ -298,5 +300,8 @@ function Game(oldScore, grid) {
 
   this.incScore = function (count) {
     this.score += (count || 1);
+    const velocityMultiplier = Math.floor(this.score / 200)
+    this.velocityDelta = VELOCITY_START + 0.05 * velocityMultiplier;
+    //console.log("Velocity "+this.velocityDelta)
   };
 }
