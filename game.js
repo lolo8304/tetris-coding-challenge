@@ -164,6 +164,7 @@ function Player(grid, vDelta) {
 
 function Game(oldScore, grid) {
   const VELOCITY_START = 0.03
+  const VELOCITY_INC = 0.01
   this.velocityDelta = VELOCITY_START;
   this.h = CELL_SIZE * ROW_CELLS_AND_BOUNDARY;
   this.w = CELL_SIZE * COL_CELLS_AND_BOUNDARY;
@@ -301,7 +302,7 @@ function Game(oldScore, grid) {
   this.incScore = function (count) {
     this.score += (count || 1);
     const velocityMultiplier = Math.floor(this.score / 200)
-    this.velocityDelta = VELOCITY_START + 0.05 * velocityMultiplier;
+    this.velocityDelta = VELOCITY_START + VELOCITY_INC * velocityMultiplier;
     //console.log("Velocity "+this.velocityDelta)
   };
 }
