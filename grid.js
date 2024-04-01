@@ -479,8 +479,23 @@ function Grid(game, x, y, oldCells) {
   this.dropFullLines = function () {
     const fullLines = this.listOfFullLines();
     if (fullLines.length > 0) {
+      switch (fullLines.length) {
+        case 1:
+          this.game.incScore(40);
+          break;
+        case 2:
+            this.game.incScore(100);
+            break;
+        case 3:
+          this.game.incScore(300);
+          break;
+        case 3:
+          this.game.incScore(1200);
+          break;
+        default:
+          break;
+      }
       for (const gridY of fullLines) {
-        this.game.incScore(10);
         this.dropLine(gridY);
       }
     }

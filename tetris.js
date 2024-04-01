@@ -100,7 +100,7 @@ function setup() {
   createTButton("Help", "help");
   createTButton("Quit", "quit");
 
-  createTButton("&nbsp;&nbsp;<&nbsp;&nbsp;", "left");
+  createTButton("&shy;&nbsp;&nbsp;<&nbsp;&nbsp;", "left");
   createTButton("&nbsp;&nbsp;>&nbsp;&nbsp;", "right");
   createTButton("down", "down");
   createTButton("rotate", "up");
@@ -122,7 +122,6 @@ function reset() {
 }
 
 function keyPressed() {
-  game.score = keyCode;
   switch (key) {
     case "g":
       reset();
@@ -131,7 +130,8 @@ function keyPressed() {
       reset();
       break;
     case "s":
-      game?.playerActionDrop();
+    case " ":
+        game?.playerActionDrop();
       break;
     case "a":
     case "ArrowLeft":

@@ -198,19 +198,19 @@ function Game(oldScore, grid) {
       noloop();
     });
 
-    enableButton("left", this.x + 74, this.y + this.h + 6, () => {
+    enableButton("left", this.x + 134, this.y + this.h + 6, () => {
       game.playerActionLeft();
     });
-    enableButton("space", this.x + 140, this.y + this.h + 6, () => {
+    enableButton("space", this.x + 200, this.y + this.h + 6, () => {
       game.playerActionDrop()
     });
-    enableButton("right", this.x + 230, this.y + this.h + 6, () => {
+    enableButton("right", this.x + 290, this.y + this.h + 6, () => {
       game.playerActionRight();
     });
-    enableButton("down", this.x + 90, this.y + this.h + 60, () => {
+    enableButton("down", this.x + 150, this.y + this.h + 60, () => {
       game.playerActionDown();
     });
-    enableButton("up", this.x + 200, this.y + this.h + 60, () => {
+    enableButton("up", this.x + 260, this.y + this.h + 60, () => {
       game.playerActionRotateRight();
     });
 
@@ -238,15 +238,14 @@ function Game(oldScore, grid) {
   };
   
   this.resetPlayerAndCheck = function() {
-    this.incScore(1);
     this.player = undefined;
     this.grid.dropFullLines()
-
   }
 
   this.drawGrid = function () {
     if (this.player) {
       if (!this.player.checkAndMoveDown()) {
+        this.incScore(1*4);
         this.resetPlayerAndCheck();
       }
     } else {
@@ -277,6 +276,7 @@ function Game(oldScore, grid) {
       while (this.player.checkAndMove(1, 0)) {
         console.log("still has some space. I am going down");
       }
+      this.incScore(2*4);
       this.resetPlayerAndCheck();
     }
   };
