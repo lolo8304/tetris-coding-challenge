@@ -47,10 +47,11 @@ let lastTapTime = 0;
 function preventZoom(event) {
   const currentTime = new Date().getTime();
   const tapLength = currentTime - lastTapTime;
-  if (tapLength < 300 && tapLength > 0) {
+  // if (tapLength < 300 && tapLength > 0) {
     // Prevent the default action for double-tap
     event.preventDefault();
-  }
+    event.stopPropagating();
+  // }
   lastTapTime = currentTime;
 }
 
